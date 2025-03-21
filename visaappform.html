@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Application</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        input, select, button { padding: 10px; margin: 10px; display: block; width: 80%; max-width: 300px; margin-left: auto; margin-right: auto; }
+        #message { margin-top: 20px; font-weight: bold; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h2>Visa Application Form</h2>
+    <form id="visaForm" onsubmit="return validateForm()">
+        <input type="text" id="name" placeholder="Enter your name">
+        <input type="text" id="passport" placeholder="Enter passport number (8-10 characters)">
+        <select id="country">
+            <option value="">--Select Country--</option>
+            <option value="USA">USA</option>
+            <option value="Canada">Canada</option>
+            <option value="India">India</option>
+            <option value="UK">UK</option>
+            <option value="Australia">Australia</option>
+        </select>
+        <button type="submit">Apply for Visa</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        function validateForm() {
+            let name = document.getElementById("name").value.trim();
+            let passport = document.getElementById("passport").value.trim();
+            let country = document.getElementById("country").value;
+            let message = document.getElementById("message");
+            
+            if (name === "" || passport === "" || country === "") {
+                message.innerText = "All fields are required!";
+                message.className = "error";
+                return false;
+            }
+            
+            if (passport.length < 8 || passport.length > 10) {
+                message.innerText = "Invalid passport number!";
+                message.className = "error";
+                return false;
+            }
+            
+            message.innerText = "Visa application submitted successfully!";
+            message.className = "success";
+            return false;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Requirement Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        select, button { padding: 10px; margin: 10px; }
+        #message { margin-top: 20px; font-weight: bold; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h2>Visa Requirement Form</h2>
+    <form id="visaForm" action="visaformprocess.php" method="POST" onsubmit="return validateForm()">
+        <label for="country">Select your country:</label>
+        <select id="country" name="country">
+            <option value="">--Select Country--</option>
+            <option value="USA">USA</option>
+            <option value="Canada">Canada</option>
+            <option value="India">India</option>
+            <option value="UK">UK</option>
+            <option value="Australia">Australia</option>
+        </select>
+        <button type="submit">Check Visa</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        function validateForm() {
+            let country = document.getElementById("country").value;
+            let message = document.getElementById("message");
+            
+            if (country === "") {
+                message.innerText = "Invalid country selection.";
+                message.classList.add("error");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
