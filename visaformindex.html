@@ -3,19 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visa Requirement Form</title>
+    <title>Visa Application Form</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
-        select, button { padding: 10px; margin: 10px; }
-        #message { margin-top: 20px; font-weight: bold; }
+        body { font-family: Arial, sans-serif; 
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        background-image: url("https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg?auto=compress&cs=tinysrgb&w=600");
+        background-size: cover;
+    }
         .error { color: red; }
+        .success { color: green; }
     </style>
 </head>
 <body>
-    <h2>Visa Requirement Form</h2>
-    <form id="visaForm" action="process.php" method="POST" onsubmit="return validateForm()">
-        <label for="country">Select your country:</label>
-        <select id="country" name="country">
+    <h2>Visa Application Form</h2>
+    <form id="visaForm">
+        <label for="fullName">Full Name:</label>
+        <input type="text" id="fullName" required><br><br>
+        
+        <label for="passport">Passport Number:</label>
+        <input type="text" id="passport" required><br><br>
+        
+        <label for="country">Select Country:</label>
+        <select id="country" onchange="checkVisaRequirement()">
             <option value="">--Select--</option>
             <option value="USA">USA</option>
             <option value="Canada">Canada</option>
@@ -23,21 +35,71 @@
             <option value="UK">UK</option>
             <option value="Australia">Australia</option>
         </select>
-        <button type="submit">Check Visa</button>
+        <br><br>
+        
+        <button type="button" onclick="validateForm()">Apply for Visa</button>
     </form>
-    <div id="message"></div>
-
+    
+    <p id="message"></p>
+    <p id="visaInfo"></p>
+    
+    <!-- <button type="button" onclick="checkVisaRequirement()">Check Visa</button> -->
+    
     <script>
         function validateForm() {
-            let country = document.getElementById("country").value;
-            let message = document.getElementById("message");
+            const fullName = document.getElementById("fullName").value.trim();
+            const passport = document.getElementById("passport").value.trim();
+            const country = document.getElementById("country").value;
+            const message = document.getElementById("message");
             
-            if (country === "") {
-                message.innerText = "Invalid country selection.";
-                message.classList.add("error");
-                return false;
+            message.innerHTML = "";
+            message.className = "";
+            
+            if (!fullName || !passport || !country) {
+                message.innerHTML = "All fields are required!";
+                message.className = "error";
+                return;
             }
-            return true;
+            
+            if (passport.length < 8 || passport.length > 10) {
+                message.innerHTML = "Invalid passport number!";
+                message.className = "error";
+                return;
+            }
+            
+            message.innerHTML = "Visa application submitted successfully!";
+            message.className = "success";
+        }
+        
+        function checkVisaRequirement() {
+            const country = document.getElementById("country").value;
+            const visaInfo = document.getElementById("visaInfo");
+            
+            switch (country) {
+                case "USA":
+                    visaInfo.innerHTML = "Visa required for most applicants.";
+                    visaInfo.className = "";
+                    break;
+                case "Canada":
+                    visaInfo.innerHTML = "Visa required unless you have an eTA.";
+                    visaInfo.className = "";
+                    break;
+                case "India":
+                    visaInfo.innerHTML = "Visa required before travel.";
+                    visaInfo.className = "";
+                    break;
+                case "UK":
+                    visaInfo.innerHTML = "Visa depends on the duration of stay.";
+                    visaInfo.className = "";
+                    break;
+                case "Australia":
+                    visaInfo.innerHTML = "eVisa available for eligible travelers.";
+                    visaInfo.className = "";
+                    break;
+                default:
+                    visaInfo.innerHTML = "Please select a country.";
+                    visaInfo.className = "error";
+            }
         }
     </script>
 </body>
